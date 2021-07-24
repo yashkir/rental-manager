@@ -1,0 +1,11 @@
+{
+  "name": "graphql",
+  "version": "1.0.0",
+  "author": "Yuriy Yashkir <yuriy.yashkir@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start-client": "cd client && yarn start",
+    "start-server": "cd server && yarn start",
+    "watch-server": "cd server && yarn watch"
+  }
+}
