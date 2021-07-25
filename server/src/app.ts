@@ -7,6 +7,7 @@ const PORT = 8080;
 
 const schema = buildSchema(`
   type Rental {
+    id: Int!,
     address: String!,
     monthlyRate: Int!,
     available: Boolean!,
@@ -15,10 +16,22 @@ const schema = buildSchema(`
   type Query {
     rentals: [Rental!]!
   }
+
+  type Mutation {
+    deleteRental(id: Int): [Rental!]!
+  }
 `);
 
 const root = {
   rentals: () => {
+    return db.rentals;
+  },
+  deleteRental: ({id}: any) => {
+    const idx = db.rentals.findIndex(rental => rental.id === id);
+    if (idx != -1) {
+      db.rentals.splice(idx, 1);
+    }
+
     return db.rentals;
   }
 };

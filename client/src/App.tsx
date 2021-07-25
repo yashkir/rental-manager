@@ -5,6 +5,7 @@ import './App.css';
 const ENDPOINT = "/graphql";
 
 type Rental = {
+  id: number,
   address: string,
   monthlyRate: number,
   available: boolean,
@@ -13,10 +14,24 @@ type Rental = {
 function App() {
   const [rentals, setRentals] = useState<Rental[]>([]);
 
+  function deleteRental(id: Rental['id']) {
+    const payload = {
+      query: `mutation {deleteRental(id: ${id}) { id, address, monthlyRate, available }}`
+    };
+    axios.post(ENDPOINT, payload)
+      .then(res => {
+        setRentals(res.data.data.deleteRental);
+      });
+  }
+
+  function toggleAvailableRental(id: Rental['id']) {
+    return;
+  }
+
   useEffect(() => {
     const payload = {
       query: `{
-        rentals { address, monthlyRate, available }
+        rentals { id, address, monthlyRate, available }
       }`
     };
 
@@ -30,11 +45,12 @@ function App() {
     <div className="App">
       <h1>Rentals</h1>
       <table>
-        <thead>
+        <thead style={{ fontWeight: "bold" }}>
           <tr>
             <td>Address</td>
             <td>Rate</td>
             <td>Available?</td>
+            <td>Options</td>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +59,10 @@ function App() {
               <td>{rental.address}</td>
               <td>${rental.monthlyRate}</td>
               <td>{rental.available ? <span>yes</span> : <span>no</span>}</td>
+              <td>
+                <button onClick={() => deleteRental(rental.id)}>delete</button>
+                <button onClick={() => toggleAvailableRental(rental.id)}>toggle available</button>
+              </td>
             </tr>
           )}
         </tbody>
