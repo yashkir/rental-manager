@@ -1,17 +1,29 @@
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
+import db from './db';
 
-const app = express();
 const PORT = 8080;
 
 const schema = buildSchema(`
+  type Rental {
+    address: String!,
+    monthlyRate: Int!,
+    available: Boolean!,
+  }
+
   type Query {
-    hello: String
+    rentals: [Rental!]!
   }
 `);
 
-const root = { hello: () => 'Hello World!' };
+const root = {
+  rentals: () => {
+    return db.rentals;
+  }
+};
+
+const app = express();
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,
@@ -19,7 +31,7 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true,
 }))
 
-app.get('/', (_req, res) => res.send("Hello World"));
+app.get('/', (_req, res) => res.send("This is a GraphQL server. Use the /graphql endpoint."));
 
 app.listen(PORT, () => {
   `running on ${PORT}`;
