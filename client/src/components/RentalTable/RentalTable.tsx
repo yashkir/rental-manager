@@ -22,7 +22,7 @@ export default function RentalTable( { rentals, deleteRental, toggleAvailableRen
         </thead>
         <tbody>
           {rentals.map((rental) => 
-            <tr key={rental.address}>
+            <tr key={rental.id}>
               <td>{rental.address}</td>
               <td>${rental.monthlyRate}</td>
               <td>{rental.available ? <span>yes</span> : <span>no</span>}</td>
