@@ -19,6 +19,7 @@ const schema = buildSchema(`
 
   type Mutation {
     deleteRental(id: Int): [Rental!]!
+    toggleAvailableRental(id: Int): Rental!
   }
 `);
 
@@ -33,6 +34,14 @@ const root = {
     }
 
     return db.rentals;
+  },
+  toggleAvailableRental: ({id}: any) => {
+    const idx = db.rentals.findIndex(rental => rental.id === id);
+    if (idx != -1) {
+      db.rentals[idx].available = !db.rentals[idx].available;
+    }
+
+    return db.rentals[idx];
   }
 };
 

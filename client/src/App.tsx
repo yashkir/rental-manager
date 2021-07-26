@@ -27,7 +27,19 @@ function App() {
   }
 
   async function toggleAvailableRental(id: Rental['id']) {
-    return;
+    const res = await axios.post(ENDPOINT, {
+      query: `mutation {
+        toggleAvailableRental(id: ${id}) {
+          id, address, monthlyRate, available 
+        }
+      }`
+    });
+
+    const updatedRental = res.data.data.toggleAvailableRental;
+    let newRentals = [...rentals];
+    newRentals[rentals.findIndex(r => r.id === updatedRental.id)] = updatedRental;
+
+    setRentals(newRentals);
   }
 
   async function loadRentals() {
