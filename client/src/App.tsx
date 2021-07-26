@@ -3,6 +3,7 @@ import axios from 'axios';
 import './App.css';
 import { Rental, RentalInput } from './typings';
 import AddRentalForm from './components/AddRentalForm/AddRentalForm';
+import RentalTable from './components/RentalTable/RentalTable';
 
 const ENDPOINT = "/graphql";
 
@@ -52,7 +53,9 @@ function App() {
   async function loadRentals() {
     const res = await axios.post(ENDPOINT, {
       query: `{
-        rentals { id, address, monthlyRate, available }
+        rentals {
+          id, address, monthlyRate, available
+        }
       }`
     });
 
@@ -65,31 +68,13 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Rentals</h1>
+      <h1>Rental Manager</h1>
       <AddRentalForm addRental={addRental} />
-      <table>
-        <thead style={{ fontWeight: "bold" }}>
-          <tr>
-            <td>Address</td>
-            <td>Rate</td>
-            <td>Available?</td>
-            <td>Options</td>
-          </tr>
-        </thead>
-        <tbody>
-          {rentals.map((rental) => 
-            <tr key={rental.address}>
-              <td>{rental.address}</td>
-              <td>${rental.monthlyRate}</td>
-              <td>{rental.available ? <span>yes</span> : <span>no</span>}</td>
-              <td>
-                <button onClick={() => deleteRental(rental.id)}>delete</button>
-                <button onClick={() => toggleAvailableRental(rental.id)}>toggle available</button>
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <RentalTable
+        rentals={rentals}
+        deleteRental={deleteRental}
+        toggleAvailableRental={toggleAvailableRental}
+      />
     </div>
   );
 }
