@@ -1,5 +1,6 @@
 import React from 'react';
 import { Rental } from '../../typings';
+import './RentalTable.css';
 
 export default function RentalTable( { rentals, deleteRental, toggleAvailableRental }:
   {
@@ -9,9 +10,9 @@ export default function RentalTable( { rentals, deleteRental, toggleAvailableRen
   })
 {
   return (
-    <div>
+    <div className="RentalTable">
       <table>
-        <thead style={{ fontWeight: "bold" }}>
+        <thead className="RentalTable-header" style={{ fontWeight: "bold" }}>
           <tr>
             <td>Address</td>
             <td>Rate</td>

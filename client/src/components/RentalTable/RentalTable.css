@@ -1,0 +1,19 @@
+.RentalTable {
+  margin: 24px 0;
+}
+
+.RentalTable tr:nth-child(even) {
+  background-color: #eeeeee;
+}
+
+.RentalTable td {
+  padding: 5px;
+}
+
+.RentalTable button {
+  margin: 0px 5px;
+}
+
+.RentalTable-header {
+  background-color: goldenrod;
+}

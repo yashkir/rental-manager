@@ -1,0 +1,11 @@
+.AddRentalForm > form > label {
+  display: block;
+}
+
+.AddRentalForm > form > label > input {
+  display: block;
+}
+
+.AddRentalForm > form > button {
+  margin: 5px 0;
+}

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { RentalInput } from '../../typings';
+import './AddRentalForm.css';
 
 export default function AddRentalForm({ addRental }: { addRental: (input: RentalInput) => void}) {
   const inputAddress = useRef<HTMLInputElement>(null);
@@ -17,7 +18,7 @@ export default function AddRentalForm({ addRental }: { addRental: (input: Rental
   }
 
   return (
-    <div>
+    <div className="AddRentalForm">
       <form onSubmit={handleSubmit}>
         <label>Address<input type="text" ref={inputAddress} /></label>
         <label>Rate<input type="number" ref={inputMonthlyRate} /></label>
