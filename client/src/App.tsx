@@ -1,18 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
+import { Rental, RentalInput } from './typings';
+import AddRentalForm from './components/AddRentalForm/AddRentalForm';
 
 const ENDPOINT = "/graphql";
 
-type Rental = {
-  id: number,
-  address: string,
-  monthlyRate: number,
-  available: boolean,
-}
-
 function App() {
   const [rentals, setRentals] = useState<Rental[]>([]);
+
+  async function addRental(input: RentalInput) {
+    const res = await axios.post(ENDPOINT, {
+      query: `mutation {
+        addRental(input: { address: "${input.address}", monthlyRate: ${input.monthlyRate} }) {
+          id, address, monthlyRate, available 
+        }
+      }`
+    });
+
+    setRentals(res.data.data.addRental);
+  }
 
   async function deleteRental(id: Rental['id']) {
     const res = await axios.post(ENDPOINT, {
@@ -59,6 +66,7 @@ function App() {
   return (
     <div className="App">
       <h1>Rentals</h1>
+      <AddRentalForm addRental={addRental} />
       <table>
         <thead style={{ fontWeight: "bold" }}>
           <tr>

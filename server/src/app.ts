@@ -1,7 +1,7 @@
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
-import db from './db';
+import db, { getNewID } from './db';
 
 const PORT = 8080;
 
@@ -13,11 +13,17 @@ const schema = buildSchema(`
     available: Boolean!,
   }
 
+  input RentalInput {
+    address: String,
+    monthlyRate: Int,
+  }
+
   type Query {
     rentals: [Rental!]!
   }
 
   type Mutation {
+    addRental(input: RentalInput): [Rental!]!
     deleteRental(id: Int): [Rental!]!
     toggleAvailableRental(id: Int): Rental!
   }
@@ -25,6 +31,11 @@ const schema = buildSchema(`
 
 const root = {
   rentals: () => {
+    return db.rentals;
+  },
+  addRental: ({input}: any) => {
+    db.rentals.push({...input, id: getNewID(), available: true});
+
     return db.rentals;
   },
   deleteRental: ({id}: any) => {

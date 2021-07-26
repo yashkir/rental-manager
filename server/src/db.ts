@@ -1,3 +1,5 @@
+let currentID = 4
+
 const db = {
   rentals: [
     {
@@ -19,6 +21,12 @@ const db = {
       available: false,
     },
   ]
+}
+
+export function getNewID() {
+  currentID += 1;
+
+  return currentID;
 }
 
 export default db;
