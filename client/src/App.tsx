@@ -14,31 +14,34 @@ type Rental = {
 function App() {
   const [rentals, setRentals] = useState<Rental[]>([]);
 
-  function deleteRental(id: Rental['id']) {
-    const payload = {
-      query: `mutation {deleteRental(id: ${id}) { id, address, monthlyRate, available }}`
-    };
-    axios.post(ENDPOINT, payload)
-      .then(res => {
-        setRentals(res.data.data.deleteRental);
-      });
+  async function deleteRental(id: Rental['id']) {
+    const res = await axios.post(ENDPOINT, {
+      query: `mutation {
+        deleteRental(id: ${id}) {
+          id, address, monthlyRate, available 
+        }
+      }`
+    });
+
+    setRentals(res.data.data.deleteRental);
   }
 
-  function toggleAvailableRental(id: Rental['id']) {
+  async function toggleAvailableRental(id: Rental['id']) {
     return;
   }
 
-  useEffect(() => {
-    const payload = {
+  async function loadRentals() {
+    const res = await axios.post(ENDPOINT, {
       query: `{
         rentals { id, address, monthlyRate, available }
       }`
-    };
+    });
 
-    axios.post(ENDPOINT, payload)
-      .then(res => {
-        setRentals(res.data.data.rentals);
-      });
+    setRentals(res.data.data.rentals);
+  }
+
+  useEffect(() => {
+    loadRentals();
   }, []);
 
   return (
