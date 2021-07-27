@@ -4,7 +4,7 @@ import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
 import db, { getNewID } from './db';
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 const schema = buildSchema(`
   type Rental {

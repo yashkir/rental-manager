@@ -4,8 +4,9 @@
   "author": "Yuriy Yashkir <yuriy.yashkir@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "cd client && yarn build && cd ../server && yarn build",
-    "start": "cd server && yarn start",
+    "install": "yarn --cwd client install && yarn --cwd server install",
+    "build": "yarn install && yarn --cwd client run build && yarn --cwd server run build",
+    "start": "yarn --cwd server run start",
     "start-client": "cd client && yarn start",
     "start-server": "cd server && yarn start",
     "watch-server": "cd server && yarn watch"
