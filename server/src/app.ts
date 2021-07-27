@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import { graphqlHTTP } from 'express-graphql';
 import { buildSchema } from 'graphql';
 import db, { getNewID } from './db';
@@ -58,14 +59,17 @@ const root = {
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "..", "..", "client", "build")));
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   rootValue: root,
   graphiql: true,
 }))
 
-app.get('/', (_req, res) => res.send("This is a GraphQL server. Use the /graphql endpoint."));
+app.get("/*", function(_req, res) {
+  res.sendFile(path.join(__dirname, "..", "..", "client", "build", "index.html"));
+});
 
 app.listen(PORT, () => {
-  `running on ${PORT}`;
+  console.log(`server running on ${PORT}`);
 })

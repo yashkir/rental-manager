@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon dist/app.js",
+    "start": "node dist/app.js",
     "watch": "concurrently \"tsc -w\" \"nodemon dist/app.js\""
   },
   "devDependencies": {
